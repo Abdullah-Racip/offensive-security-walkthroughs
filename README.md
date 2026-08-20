@@ -1,2 +1,2 @@
-# ctf-walkthroughs
-Step-by-step exploitation writeups for VulnHub CTF targets, covering enumeration, RCE, and privilege escalation techniques.
+# offensive-security-walkthroughs
+Step-by-step exploitation writeups for CTF targets, covering enumeration, RCE, and privilege escalation techniques.
