@@ -20,7 +20,11 @@ worked, what didn't, and the final privesc path.
 
 | Box | Platform | Difficulty | Status |
 |---|---|---|---|
-| — | — | — | — |
+| [DC-1](./dc-1) | VulnHub | Beginner | ✅ Rooted |
+| [DC-2](./dc-2) | VulnHub | Beginner | ✅ Rooted |
+| [DC-3](./dc-3) | VulnHub | Beginner | ✅ Rooted |
+| [Cybersploit: 1](./cybersploit-1) | VulnHub | Easy | ✅ Rooted |
+| [Cybersploit: 2](./cybersploit-2) | VulnHub | Easy | ✅ Rooted |
 
 **Stack I lean on:** Nmap · Burp Suite · sqlmap · Metasploit · Wireshark
 
