@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/boxes_rooted-6-success?style=flat-square" alt="Boxes rooted"/>
+  <img src="https://img.shields.io/badge/boxes_rooted-7-success?style=flat-square" alt="Boxes rooted"/>
   <img src="https://img.shields.io/badge/platform-VulnHub-orange?style=flat-square" alt="Platform"/>
   <img src="https://img.shields.io/badge/status-active-brightgreen?style=flat-square" alt="Status"/>
   <img src="https://img.shields.io/github/last-commit/Abdullah-Racip/offensive-security-walkthroughs?style=flat-square" alt="Last commit"/>
@@ -42,6 +42,7 @@ Each box gets its own folder:
 | [DC-2](./dc-2) | VulnHub | Beginner | ✅ Rooted |
 | [DC-3](./dc-3) | VulnHub | Beginner | ✅ Rooted |
 | [DC-4](./dc-4) | VulnHub | Beginner/Intermediate | ✅ Rooted |
+| [DC-5](./dc-5) | VulnHub | Intermediate | ✅ Rooted |
 | [Cybersploit: 1](./cybersploit-1) | VulnHub | Easy | ✅ Rooted |
 | [Cybersploit: 2](./cybersploit-2) | VulnHub | Easy | ✅ Rooted |
 
