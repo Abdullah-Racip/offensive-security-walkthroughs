@@ -25,11 +25,14 @@ Every writeup follows that chain end to end — not just the commands that worke
 
 ### 📂 Structure
 
-Each box gets its own folder:
+The DC series lives under one folder; standalone boxes sit at the top level. Each box keeps its own writeup:
 
 ```
-📂 box-name/
- └── README.md   → full writeup: recon → foothold → privesc → root
+📂 DC-Boxes/
+ └── 📂 dc-N/
+      └── README.md   → full writeup: recon → foothold → privesc → root
+📂 cybersploit-N/
+ └── README.md
 ```
 
 ### 🎯 Currently rooted
@@ -38,15 +41,15 @@ Each box gets its own folder:
 
 | Box | Platform | Difficulty | Status |
 |---|---|---|---|
-| [DC-1](./dc-1) | VulnHub | Beginner | ✅ Rooted |
-| [DC-2](./dc-2) | VulnHub | Beginner | ✅ Rooted |
-| [DC-3](./dc-3) | VulnHub | Beginner | ✅ Rooted |
-| [DC-4](./dc-4) | VulnHub | Beginner/Intermediate | ✅ Rooted |
-| [DC-5](./dc-5) | VulnHub | Intermediate | ✅ Rooted |
-| [DC-6](./dc-6) | VulnHub | Beginner/Intermediate | ✅ Rooted |
-| [DC-7](./dc-7) | VulnHub | Intermediate | ✅ Rooted |
-| [DC-8](./dc-8) | VulnHub | Intermediate | ✅ Rooted |
-| [DC-9](./dc-9) | VulnHub | Intermediate | ✅ Rooted |
+| [DC-1](./DC-Boxes/dc-1) | VulnHub | Beginner | ✅ Rooted |
+| [DC-2](./DC-Boxes/dc-2) | VulnHub | Beginner | ✅ Rooted |
+| [DC-3](./DC-Boxes/dc-3) | VulnHub | Beginner | ✅ Rooted |
+| [DC-4](./DC-Boxes/dc-4) | VulnHub | Beginner/Intermediate | ✅ Rooted |
+| [DC-5](./DC-Boxes/dc-5) | VulnHub | Intermediate | ✅ Rooted |
+| [DC-6](./DC-Boxes/dc-6) | VulnHub | Beginner/Intermediate | ✅ Rooted |
+| [DC-7](./DC-Boxes/dc-7) | VulnHub | Intermediate | ✅ Rooted |
+| [DC-8](./DC-Boxes/dc-8) | VulnHub | Intermediate | ✅ Rooted |
+| [DC-9](./DC-Boxes/dc-9) | VulnHub | Intermediate | ✅ Rooted |
 | [Cybersploit: 1](./cybersploit-1) | VulnHub | Easy | ✅ Rooted |
 | [Cybersploit: 2](./cybersploit-2) | VulnHub | Easy | ✅ Rooted |
 
