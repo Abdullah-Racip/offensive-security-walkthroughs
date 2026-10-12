@@ -12,7 +12,7 @@
 <h1 align="center">offensive-security-walkthroughs</h1>
 
 <p align="center">
-A running log of VulnHub and CTF boxes taken from initial <code>nmap</code> scan to root shell — written up as I go, mostly as coursework for Ethical Hacking at APIIT, partly because I can't stop doing this on weekends too.
+A running log of VulnHub and CTF boxes taken from initial <code>nmap</code> scan to root shell, written up as I go, mostly as coursework for Ethical Hacking at APIIT, partly because I can't stop doing this on weekends too.
 </p>
 
 ---
@@ -21,7 +21,7 @@ A running log of VulnHub and CTF boxes taken from initial <code>nmap</code> scan
 
 <p align="center"><code>recon → enumeration → vulnerability ID → exploitation → privesc → root</code></p>
 
-Every writeup follows that chain end to end — not just the commands that worked, but *why* each step made sense given what recon turned up. No copy-pasted cheat sheets, no skipped reasoning.
+Every writeup follows that chain end to end, not just the commands that worked, but *why* each step made sense given what recon turned up. No copy-pasted cheat sheets, no skipped reasoning.
 
 ### 📂 Structure
 
@@ -66,7 +66,7 @@ The DC series lives under one folder; standalone boxes sit at the top level. Eac
 
 ---
 
-> Everything here is done on boxes I have explicit permission to attack —
+> Everything here is done on boxes I have explicit permission to attack:
 > VulnHub, CTF platforms, or lab environments. Don't be that person who
 > tries this on a system they don't own.
 

